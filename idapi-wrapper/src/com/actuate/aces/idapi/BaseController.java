@@ -209,9 +209,11 @@ public abstract class BaseController {
 	 * @param priority
 	 */
 	public void setPriority(int priority) {
-		if( priority >= 1 && priority <= 1000) {
-			this.priority = priority;
-		}
+        if (priority >= 1 && priority <= 1000) {
+            this.priority = priority;
+        }
+    }
+
 	public void setLocale(String locale) {
 		this.acxControl.setLocale(locale);
 	}
