@@ -8,6 +8,7 @@ import com.actuate.aces.idapi.control.ActuateException;
 import com.actuate.aces.idapi.control.AcxControl;
 import com.actuate.schemas.*;
 
+
 import javax.xml.rpc.ServiceException;
 import java.net.MalformedURLException;
 import java.util.Arrays;
@@ -109,12 +110,16 @@ public abstract class BaseController {
 		this.permissions = permissions;
 	}
 
-	public void addPermission(String user, String group, String accessRight) {
+	public void addPermission(String user, String group, String role, String accessRight) {
 		Permission permission = new Permission();
 		if (user != null)
 			permission.setUserName(user);
 		if (group != null && user == null)
 			permission.setUserGroupName(group);
+
+		if (role != null && user == null)
+			permission.setRoleName(role);
+
 		permission.setAccessRight(accessRight);
 
 		if (permissions == null) {
@@ -207,5 +212,7 @@ public abstract class BaseController {
 		if( priority >= 1 && priority <= 1000) {
 			this.priority = priority;
 		}
+	public void setLocale(String locale) {
+		this.acxControl.setLocale(locale);
 	}
 }
