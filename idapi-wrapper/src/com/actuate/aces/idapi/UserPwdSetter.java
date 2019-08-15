@@ -14,27 +14,31 @@ import java.rmi.RemoteException;
 /**
  * Created by rmurphy on 7/25/2014.
  */
-public class UserGroupAssigner extends BaseController {
-	public UserGroupAssigner(BaseController controller) {
+public class UserPwdSetter extends BaseController {
+	public UserPwdSetter(BaseController controller) {
 		super(controller);
 	}
 
-	public UserGroupAssigner(String host, String authenticationId) throws MalformedURLException, ServiceException {
+	public UserPwdSetter(String host, String authenticationId) throws MalformedURLException, ServiceException {
 		super(host, authenticationId);
 	}
 
-	public UserGroupAssigner(String host, String username, String password, String volume) throws ServiceException, ActuateException, MalformedURLException {
+	public UserPwdSetter(String host, String username, String password, String volume) throws ServiceException, ActuateException, MalformedURLException {
 		super(host, username, password, volume);
 	}
 
-	public UserGroupAssigner(String host, String username, String password, String volume, byte[] extendedCredentials) throws ServiceException, ActuateException, MalformedURLException {
+	public UserPwdSetter(String host, String username, String password, String volume, byte[] extendedCredentials) throws ServiceException, ActuateException, MalformedURLException {
 		super(host, username, password, volume, extendedCredentials);
 	}
 
-	public boolean assignGroup(String user, String[] groups) throws RemoteException {
-		ArrayOfString groupArray = new ArrayOfString(groups);
+	public boolean setPassword(String user, String password) throws RemoteException {
+		User setAttributes = new User();
+		setAttributes.setName(user);
+		setAttributes.setPassword(password);
+
 		UpdateUserOperation updateUserOperation = new UpdateUserOperation();
-		updateUserOperation.setAssignUserGroupsByName(groupArray);
+		updateUserOperation.setSetAttributes(setAttributes);
+
 		UserCondition userCondition = new UserCondition();
 		userCondition.setField(UserField.Name);
 		userCondition.setMatch(user.replace("-","\\-"));
@@ -63,3 +67,5 @@ public class UserGroupAssigner extends BaseController {
 		return true;
 	}
 }
+
+
