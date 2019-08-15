@@ -31,13 +31,13 @@ public class UserGroupAssigner extends BaseController {
 		super(host, username, password, volume, extendedCredentials);
 	}
 
-	public boolean assignGroup(String user, String[] groups) {
+	public boolean assignGroup(String user, String[] groups) throws RemoteException {
 		ArrayOfString groupArray = new ArrayOfString(groups);
 		UpdateUserOperation updateUserOperation = new UpdateUserOperation();
 		updateUserOperation.setAssignUserGroupsByName(groupArray);
 		UserCondition userCondition = new UserCondition();
 		userCondition.setField(UserField.Name);
-		userCondition.setMatch(user);
+		userCondition.setMatch(user.replace("-","\\-"));
 		UserSearch userSearch = new UserSearch();
 		userSearch.setCondition(userCondition);
 
@@ -53,12 +53,12 @@ public class UserGroupAssigner extends BaseController {
 		adminOperations[0].setUpdateUser(updateUser);
 		Administrate administrate = new Administrate();
 		administrate.setAdminOperation(adminOperations);
-		try {
+		//try {
 			acxControl.proxy.administrate(administrate);
-		} catch (RemoteException e) {
-			e.printStackTrace();
-			return false;
-		}
+		//} catch (RemoteException e) {
+		//	e.printStackTrace();
+		//	return false;
+		//}
 
 		return true;
 	}
